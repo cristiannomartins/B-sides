@@ -39,7 +39,7 @@ func _choose_option(message:String, options: Array,
 		default_index:int = 1, initial_index:int = 0) -> int:
 	GlobalMessageDialog.clear_state()
 	yield (GlobalMessageDialog.show_message(message, false, false), "completed")
-	var result = yield (GlobalMenuDialog.show_menu(options, default_index, initial_index), "completed")
+	var result = yield (GlobalMenuDialog.show_menu(options, options.size()-1, initial_index), "completed")
 	yield (GlobalMessageDialog.hide(), "completed")
 	return result
 
