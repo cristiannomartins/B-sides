@@ -28,7 +28,14 @@ func _add_changes():
 func _save_snippets():
 	add_snippet("find_texture_place", "\t\ttexture_normal = NORMAL_TEXTURE if not tape.is_bootleg() else BOOTLEG_TEXTURE")
 	add_snippet("add_replace_texture", """
-		if SaveState.party.is_using_bt_or_backup() and (get_path().get_name(2) == 'PartyMenu' or get_path().get_name(2) == 'ChooseTapeMenu'):
+		var from_inventory = MenuHelper.get_child(MenuHelper.get_child_count() - 1)
+		if from_inventory:
+			if from_inventory.get_path().get_name(2) != 'ChooseTapeMenu': from_inventory = null
+			elif not from_inventory.callback: from_inventory = null
+			elif not from_inventory.callback.instance: from_inventory = null
+			elif not from_inventory.callback.instance.has_method("is_taping_healing_item"):
+				from_inventory = null
+		if SaveState.party.is_using_bt_or_backup() and (get_path().get_name(2) == 'PartyMenu' or from_inventory):
 			texture_normal = B_SIDES_NORMAL_TEXTURE if not tape.is_bootleg() else B_SIDES_BOOTLEG_TEXTURE
 		else:
 			texture_normal = NORMAL_TEXTURE if not tape.is_bootleg() else BOOTLEG_TEXTURE

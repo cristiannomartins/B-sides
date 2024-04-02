@@ -21,3 +21,6 @@ func custom_use_menu(_node, context_kind:int, context, arg = null):
 					tapes.push_back(c.current_tape)
 	
 	return MenuHelper.show_choose_tape_menu(tapes, Bind.new(self, "_tape_filter"), Bind.new(self, "_tape_menu_callback", [context_kind, context]))
+	
+func is_taping_healing_item():
+	return
