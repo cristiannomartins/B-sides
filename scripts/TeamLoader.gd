@@ -12,6 +12,7 @@ var pre_loaded_tapes = {}
 func _on_file_loaded():
 	storage.load_teams()
 	print("on_party_loaded")
+	SaveState.party.player_alt_tapes = []
 	#var player = SaveState.party.get_player()
 	SaveState.party.current_team = storage.get_current_team()
 	if SaveState.party.is_using_bt():#player.current_team == player.PARTY_ID:
@@ -85,7 +86,7 @@ func go_back_to_party() -> void:
 		return
 	
 	storage.update_tapes_and_save(SaveState.party.current_team, SaveState.party.get_alt_tapes())
-	
+	storage.set_current_team(SaveState.party.PARTY_ID)
 	SaveState.party.current_team = SaveState.party.PARTY_ID
 	SaveState.party.player_alt_tapes = []
 	SaveState.party.partner_alt_tapes = []
