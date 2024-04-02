@@ -76,9 +76,11 @@ func _save_snippets():
 			var storage = preload('res://mods/B-sides/scripts/StorageSystem.gd').new()
 			$Scroller/BSidesContainer/PanelContainer2/TeamNameLabel.text = storage.get_team_name(SaveState.party.current_team)
 			$BackButtonPanel/HBoxContainer/SaveTeam.text = "MOD_BSIDES_SAVE_OPTION_WHEN_LOADED"
+			$BackButtonPanel/HBoxContainer/SaveTeam.hint_tooltip = "MOD_BSIDES_SAVE_OPTION_WHEN_LOADED_HINT"
 		else:
 			$Scroller/BSidesContainer.hide()
 			$BackButtonPanel/HBoxContainer/SaveTeam.text = "MOD_BSIDES_SAVE_OPTION"
+			$BackButtonPanel/HBoxContainer/SaveTeam.hint_tooltip = "MOD_BSIDES_SAVE_OPTION_HINT"
 """
 	)
 	
@@ -88,30 +90,36 @@ func _on_BackButton_pressed():
 
 func _on_SaveTeam_pressed():
 	var team_storage = preload("res://mods/B-sides/scripts/StorageSystem.gd").new()
+	Controls.set_disabled(self, true)
+	var title = Loc.tr("MOD_BSIDES_NAME_TEAM_TITLE")
+	var default_text
 	if SaveState.party.is_using_bt():
+		default_text = team_storage.get_team_name(SaveState.party.current_team)
+	else:
+		var def_array = tr("MOD_BSIDES_DEFAULT_TEAM_NAME").split('|')
+		default_text = def_array[ randi() % def_array.size() ]
+	var new_name = yield (MenuHelper.show_text_input(title, default_text), "completed")
+	Controls.set_disabled(self, false)
+	assert (new_name is String)
+
+	if SaveState.party.is_using_bt():
+		if new_name:
+			team_storage.set_team_name(SaveState.party.current_team, new_name)
 		if team_storage.update_tapes_and_save(SaveState.party.current_team, SaveState.party.get_alt_tapes()):
 			GlobalMessageDialog.clear_state()
 			GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_SUCC_UPDATING_TEAM"))
 		else:
 			GlobalMessageDialog.clear_state()
 			GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_ERROR_APPLYING_TEAM"))
-	else:
-		Controls.set_disabled(self, true)
-		var title = Loc.tr("MOD_BSIDES_NAME_TEAM_TITLE")
-		var def_array = tr("MOD_BSIDES_DEFAULT_TEAM_NAME").split('|')
-		var default_text = def_array[ randi() % def_array.size() ]
-		var new_name = yield (MenuHelper.show_text_input(title, default_text), "completed")
-		Controls.set_disabled(self, false)
-		if new_name:
-			assert (new_name is String)
-			if team_storage.create_team(new_name):
-				GlobalMessageDialog.clear_state()
-				GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_SUCC_ADDING_TEAM"))
-			else:
-				GlobalMessageDialog.clear_state()
-				GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_ERROR_APPLYING_TEAM"))
-			update_ui()
+	elif new_name:
+		if team_storage.create_team(new_name):
+			GlobalMessageDialog.clear_state()
+			GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_SUCC_ADDING_TEAM"))
+		else:
+			GlobalMessageDialog.clear_state()
+			GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_ERROR_APPLYING_TEAM"))
 	
+	update_ui()
 	grab_focus()
 
 

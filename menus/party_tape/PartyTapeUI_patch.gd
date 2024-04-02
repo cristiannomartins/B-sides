@@ -32,12 +32,6 @@ func _save_snippets():
 			buttons.remove_child(bestiary_btn)
 			bestiary_btn.queue_free()
 			bestiary_btn = null
-		buttons.remove_child(favorite_btn)
-		buttons.remove_child(rename_btn)
-		favorite_btn.queue_free()
-		rename_btn.queue_free()
-		favorite_btn = null
-		rename_btn = null
 """
 	)
 

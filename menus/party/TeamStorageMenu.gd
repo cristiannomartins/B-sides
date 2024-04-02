@@ -13,6 +13,10 @@ func _ready():
 	
 	for id in team_loader.storage.get_all_team_ids():
 		categories.push_back(Category.new("", Bind.new(self, "_get_team_tapes", [id])))
+		
+	$BackButtonPanel/HBoxContainer/Import.hint_tooltip = Loc.trf("MOD_BSIDES_IMPORT_TEAMS_HINT", {path = team_loader.storage.sharing_path}) #"MOD_BSIDES_IMPORT_TEAMS_HINT"
+	$BackButtonPanel/HBoxContainer/Export.hint_tooltip = Loc.trf("MOD_BSIDES_EXPORT_TEAMS_HINT", {path = team_loader.storage.sharing_path}) # "MOD_BSIDES_EXPORT_TEAMS_HINT"
+	$BackButtonPanel/HBoxContainer/Delete.hint_tooltip = "MOD_BSIDES_DELETE_TEAM_HINT"
 	
 	set_category_index(0)
 	
@@ -21,6 +25,9 @@ func _get_party_tapes() -> Array:
 	title_label["custom_colors/font_color"] = Color( 1, 1, 1, 1 )
 	$BackButtonPanel/HBoxContainer/Export.hide()
 	$BackButtonPanel/HBoxContainer/Delete.hide()
+	$BackButtonPanel/HBoxContainer/Apply.text = "MOD_BSIDES_APPLY_PARTY"
+	$BackButtonPanel/HBoxContainer/Apply.hint_tooltip = "MOD_BSIDES_APPLY_PARTY_HINT"
+	
 	return ._get_party_tapes()
 	
 	
@@ -30,6 +37,8 @@ func _get_team_tapes(team_id: int) -> Array:
 	title_label["custom_colors/font_color"] = Color( 0.929412, 0.956863, 0.0156863, 1 )
 	$BackButtonPanel/HBoxContainer/Export.show()
 	$BackButtonPanel/HBoxContainer/Delete.show()
+	$BackButtonPanel/HBoxContainer/Apply.text = "MOD_BSIDES_APPLY_BATTLE_TEAM"
+	$BackButtonPanel/HBoxContainer/Apply.hint_tooltip = "MOD_BSIDES_APPLY_BATTLE_TEAM_HINT"
 	
 	return team_loader.get_tapes_from_team(team_id)
 

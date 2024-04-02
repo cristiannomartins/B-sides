@@ -426,6 +426,7 @@ margin_right = 1314.0
 [node name="SaveTeam" type="Button" parent="BackButtonPanel/HBoxContainer" index="0"]
 margin_right = 384.0
 margin_bottom = 52.0
+hint_tooltip = "MOD_BSIDES_SAVE_OPTION_HINT"
 size_flags_horizontal = 10
 size_flags_vertical = 6
 custom_styles/hover = SubResource( 5 )
@@ -443,6 +444,7 @@ hide_if_disabled = true
 margin_left = 448.0
 margin_right = 815.0
 margin_bottom = 52.0
+hint_tooltip = "MOD_BSIDES_LIST_OPTION_HINT"
 size_flags_horizontal = 10
 size_flags_vertical = 6
 custom_styles/hover = SubResource( 5 )

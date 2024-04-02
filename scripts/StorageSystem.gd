@@ -82,9 +82,6 @@ func update_tapes_and_save(team_id: int, tapes: Array) -> bool:
 	if not team:
 		return false
 	
-	# FIXME: is this causing teams to loose all tapes? where is this coming from?
-	assert(tapes.size() >= 1)
-	
 	var snaps = []
 	
 	for tape in tapes:
@@ -325,6 +322,12 @@ func get_team_name(team_id: int) -> String:
 		return team.team_name
 	else:
 		return ""
+
+
+func set_team_name(team_id: int, new_name: String):
+	var team = get_team_by_id(team_id)
+	if team:
+		team.team_name = new_name
 
 
 

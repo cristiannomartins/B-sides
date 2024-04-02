@@ -1,6 +1,6 @@
 extends ContentInfo
 
-const DEBUG:bool = true
+const DEBUG:bool = false
 
 # can check imported teams for invalid params on tapes, avoiding loading teams that have those
 var validator = preload("scripts/Validator.gd").new()
