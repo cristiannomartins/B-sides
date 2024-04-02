@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://mods/B-sides/load_mod.gd" type="Script" id=1]
+[ext_resource path="res://mods/B-sides/translation/mod_strings.en.translation" type="Translation" id=2]
+
+[resource]
+script = ExtResource( 1 )
+id = "b_sides"
+name = "B-sides - Battle Team Manager"
+version_code = 1
+version_string = "1.0"
+author = "cmvieira"
+save_file_format_tag = ""
+save_file_format_tag_version = 0
+network_protocol_tag = ""
+modified_files = [ "res://battle/BattleSpriteLoader.gd", "res://global/network/NetRequestAbstractBattle.gd", "res://global/save_state/SaveState.gd", "res://global/save_state/Party.gd", "res://menus/party/PartyActionButtons.gd", "res://menus/party/PartyMenu.gd", "res://menus/party/TapeButton.gd", "res://menus/party_tape/PartyStickerActionButtons.gd", "res://menus/party_tape/PartyTapeUI.gd", "res://menus/tape_storage/TapeActionButtons.gd", "res://menus/MenuHelper.gd" ]
+modified_dirs = [ ]
+translations = [ ExtResource( 2 ) ]

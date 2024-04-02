@@ -1,0 +1,29 @@
+id,en
+MOD_BSIDES_SAVE_OPTION,Record B-Sides
+MOD_BSIDES_SAVE_OPTION_WHEN_LOADED,Save changes
+MOD_BSIDES_NAME_TEAM_TITLE,Name your mixtapes’ set
+MOD_BSIDES_DEFAULT_TEAM_NAME,Pure Mood|4eva Faves|BLAST IT!|Funky Energy|Overhyped|Fun Doze|Pew Pew Pew Songs|Time of Dreams|Amazing Chills|Dancing Alone|Nature Noise|DJ Trance|Pure Madness|Interstellar|Great Songs
+MOD_BSIDES_LIST_OPTION,Other B-Sides
+MOD_BSIDES_EMPTY_TEAMS_LIST,"There are no teams to be shown. Please, create a team and save it before using this option."
+MOD_BSIDES_APPLY_BATTLE_TEAM,Use team
+MOD_BSIDES_IMPORT_TEAMS,Import
+MOD_BSIDES_EXPORT_TEAMS,Export
+MOD_BSIDES_ERROR_APPLYING_TEAM,"Could not save team information because an error occurred. Please, try again later or contact support if this issue persists."
+MOD_BSIDES_SUCC_IMPORTING_TEAM,All available teams were successfully imported!
+MOD_BSIDES_ERROR_IMPORTING_TEAM,An error occurred while trying to import at least one of the teams.
+MOD_BSIDES_SUCC_ADDING_TEAM,New set of mixtapes created successfully!
+MOD_BSIDES_SUCC_UPDATING_TEAM,Changes on this team were saved!
+MOD_BSIDES_SUCC_DELETE_TEAM,B-sides were erased successfully!
+MOD_BSIDES_ERR_DELETE_TEAM,"Could not erase team information because an error occurred. Please, try again later or contact support if this issue persists."
+MOD_BSIDES_DELETE_TEAM,Erase
+MOD_BSIDES_DELETE_CONFIRM_PROMPT,Are you sure you want to erase this team? This operation cannot be undone.
+MOD_BSIDES_SUCC_EXPORT_TEAM,Team successfully exported!
+MOD_BSIDES_FAIL_EXPORT_TEAM,"Could not export team information because an error occurred. Please, try again later or contact support if this issue persists."
+MOD_BSIDES_IMPORT_TEAMS_NO_FILE_FOUND,"There are no valid teams in the importing folder. Please, add new files to the correct path before requesting to import. "
+MOD_BSIDES_IMPORT_TEAMS_CHOICE,"Please, choose from the available teams found on the shared folder to import:"
+MOD_BSIDES_IMPORT_TEAMS_ALL,All of them
+MOD_BSIDES_IMPORT_TEAMS_NONE,None
+MOD_BSIDES_SUCC_IMPORTING_ALL_TEAMS,All teams imported successfully!
+MOD_BSIDES_ERROR_IMPORTING_SOME_TEAM,"One or more teams could not be imported because of an issue. Please, try again later or contact support if this issue persists."
+MOD_BSIDES_MOD_LABEL,B-sides loaded
+MOD_BSIDES_EXPORT_EXISTING,An exported file with the same name already exists: do you want to overwrite it?

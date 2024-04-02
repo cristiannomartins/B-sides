@@ -1,0 +1,466 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://ui/fonts/regular/regular_30.tres" type="DynamicFont" id=1]
+[ext_resource path="res://addons/misc_utils/OverscanMarginContainer.gd" type="Script" id=2]
+[ext_resource path="res://menus/party/PartyMenu.gd" type="Script" id=3]
+[ext_resource path="res://menus/BaseMenu.tscn" type="PackedScene" id=4]
+[ext_resource path="res://menus/menu_bg_fade.shader" type="Shader" id=5]
+[ext_resource path="res://ui/battle/fusion_meter_under.png" type="Texture" id=6]
+[ext_resource path="res://nodes/menus/AutoFocusButton.gd" type="Script" id=7]
+[ext_resource path="res://menus/party/TapeButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://menus/BackButtonPanel.tscn" type="PackedScene" id=9]
+[ext_resource path="res://nodes/menus/InputMappedButton.gd" type="Script" id=10]
+[ext_resource path="res://nodes/menus/ChildScaler.gd" type="Script" id=11]
+[ext_resource path="res://ui/battle/fusion_meter_over.png" type="Texture" id=12]
+[ext_resource path="res://menus/party/PartyMemberButton.tscn" type="PackedScene" id=13]
+[ext_resource path="res://nodes/menus/FocusIndicator.tscn" type="PackedScene" id=14]
+[ext_resource path="res://ui/fonts/regular/regular_70.tres" type="DynamicFont" id=15]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/progress = 1.0
+shader_param/max_alpha = 1.0
+shader_param/base_color = Color( 0.1686, 0.1098, 0.2235, 1 )
+shader_param/hi_color = Color( 0.6706, 0.4588, 0.9098, 0.0625 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "show_party"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Blur:material:shader_param/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scroller:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scroller:margin_left")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -540, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Scroller:margin_right")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -540, 0.0 ]
+}
+
+[sub_resource type="StyleBoxFlat" id=6]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+content_margin_left = 20.0
+content_margin_right = 60.0
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_bottom_right = 60
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=3]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color( 1, 1, 1, 1 )
+shadow_color = Color( 0, 0, 0, 1 )
+shadow_size = 1
+shadow_offset = Vector2( 20, 0 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.168627, 0.113725, 0.223529, 1 )
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[node name="PartyMenu" instance=ExtResource( 4 )]
+script = ExtResource( 3 )
+show_hide_anim = "show_party"
+
+[node name="Blur" parent="." index="0"]
+material = SubResource( 1 )
+
+[node name="AnimationPlayer" parent="." index="1"]
+anims/show_party = SubResource( 2 )
+
+[node name="BSidesContainer" type="VBoxContainer" parent="Scroller" index="1"]
+margin_top = 929.0
+margin_right = 679.0
+margin_bottom = 1097.0
+rect_min_size = Vector2( 600, 0 )
+size_flags_horizontal = 0
+custom_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Scroller/BSidesContainer" index="0"]
+margin_right = 679.0
+margin_bottom = 90.0
+custom_styles/panel = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BsidesLabel" type="Label" parent="Scroller/BSidesContainer/PanelContainer" index="0"]
+margin_left = 20.0
+margin_right = 659.0
+margin_bottom = 90.0
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 15 )
+text = "MOD_BSIDES_MOD_LABEL"
+uppercase = true
+
+[node name="PanelContainer2" type="PanelContainer" parent="Scroller/BSidesContainer" index="1"]
+margin_top = 90.0
+margin_right = 679.0
+margin_bottom = 150.0
+custom_styles/panel = SubResource( 7 )
+
+[node name="TeamNameLabel" type="Label" parent="Scroller/BSidesContainer/PanelContainer2" index="0"]
+margin_left = 20.0
+margin_right = 619.0
+margin_bottom = 60.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "MOD_BSIDES_DEFAULT_TEAM_NAME"
+
+[node name="MemberButtons" type="HBoxContainer" parent="Scroller" index="2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+custom_constants/separation = 0
+alignment = 1
+
+[node name="OverscanMarginContainer" type="MarginContainer" parent="Scroller/MemberButtons" index="0"]
+margin_left = 206.0
+margin_right = 1426.0
+margin_bottom = 1080.0
+size_flags_horizontal = 0
+custom_constants/margin_right = 0
+custom_constants/margin_top = 97
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 97
+script = ExtResource( 2 )
+horizontal_margin = false
+
+[node name="Members" type="VBoxContainer" parent="Scroller/MemberButtons/OverscanMarginContainer" index="0"]
+margin_top = 97.0
+margin_right = 1220.0
+margin_bottom = 983.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
+custom_constants/separation = 32
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PartyMemberButton1" parent="Scroller/MemberButtons/OverscanMarginContainer/Members" index="0" instance=ExtResource( 13 )]
+margin_top = 71.0
+margin_bottom = 356.0
+rect_pivot_offset = Vector2( 656, 205 )
+focus_neighbour_left = NodePath("../../../MarginContainer/PanelContainer/Tapes/ChildScaler/TapeButton1")
+focus_neighbour_top = NodePath("../PartyMemberButton2")
+focus_neighbour_right = NodePath("../../../MarginContainer/PanelContainer/Tapes/ChildScaler/TapeButton1")
+focus_neighbour_bottom = NodePath("../PartyMemberButton2")
+focus_next = NodePath("../PartyMemberButton2")
+focus_previous = NodePath("../../../MarginContainer/PanelContainer/Tapes/ChildScaler4/TapeButton4")
+size_flags_vertical = 6
+
+[node name="AutoFocusButton" type="AudioStreamPlayer" parent="Scroller/MemberButtons/OverscanMarginContainer/Members/PartyMemberButton1" index="1"]
+bus = "UI"
+script = ExtResource( 7 )
+autofocus = true
+
+[node name="PartyMemberButton2" parent="Scroller/MemberButtons/OverscanMarginContainer/Members" index="1" instance=ExtResource( 13 )]
+margin_top = 530.0
+margin_bottom = 815.0
+rect_pivot_offset = Vector2( 656, 205 )
+focus_neighbour_left = NodePath("../../../MarginContainer/PanelContainer/Tapes/ChildScaler3/TapeButton3")
+focus_neighbour_top = NodePath("../PartyMemberButton1")
+focus_neighbour_right = NodePath("../../../MarginContainer/PanelContainer/Tapes/ChildScaler3/TapeButton3")
+focus_neighbour_bottom = NodePath("../PartyMemberButton1")
+focus_next = NodePath("../../../MarginContainer/PanelContainer/Tapes/ChildScaler/TapeButton1")
+focus_previous = NodePath("../PartyMemberButton1")
+size_flags_vertical = 6
+
+[node name="AutoFocusButton" type="AudioStreamPlayer" parent="Scroller/MemberButtons/OverscanMarginContainer/Members/PartyMemberButton2" index="1"]
+bus = "UI"
+script = ExtResource( 7 )
+autofocus = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Scroller/MemberButtons" index="1"]
+margin_left = 1426.0
+margin_right = 1714.0
+margin_bottom = 1080.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Scroller/MemberButtons/MarginContainer" index="0"]
+margin_right = 288.0
+margin_bottom = 1080.0
+size_flags_horizontal = 0
+custom_styles/panel = SubResource( 3 )
+
+[node name="Tapes" type="VBoxContainer" parent="Scroller/MemberButtons/MarginContainer/PanelContainer" index="0"]
+margin_left = 20.0
+margin_top = 176.0
+margin_right = 268.0
+margin_bottom = 904.0
+size_flags_horizontal = 0
+size_flags_vertical = 6
+custom_constants/separation = 32
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChildScaler" type="Control" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes" index="0"]
+margin_right = 248.0
+margin_bottom = 158.0
+rect_min_size = Vector2( 248, 158 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource( 11 )
+
+[node name="TapeButton1" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes/ChildScaler" index="0" instance=ExtResource( 8 )]
+margin_left = -196.0
+margin_top = -126.0
+margin_right = 444.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 0, 0 )
+rect_scale = Vector2( 0.385366, 0.385366 )
+focus_neighbour_left = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton1")
+focus_neighbour_top = NodePath("../../ChildScaler4/TapeButton4")
+focus_neighbour_right = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton1")
+focus_neighbour_bottom = NodePath("../../ChildScaler2/TapeButton2")
+focus_next = NodePath("../../ChildScaler2/TapeButton2")
+focus_previous = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton2")
+
+[node name="AutoFocusButton" type="AudioStreamPlayer" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes/ChildScaler/TapeButton1" index="2"]
+bus = "UI"
+script = ExtResource( 7 )
+autofocus = true
+
+[node name="ChildScaler2" type="Control" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes" index="1"]
+margin_top = 190.0
+margin_right = 248.0
+margin_bottom = 348.0
+rect_min_size = Vector2( 248, 158 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource( 11 )
+
+[node name="TapeButton2" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes/ChildScaler2" index="0" instance=ExtResource( 8 )]
+margin_left = -196.0
+margin_top = -126.0
+margin_right = 444.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 0, 0 )
+rect_scale = Vector2( 0.385366, 0.385366 )
+focus_neighbour_left = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton1")
+focus_neighbour_top = NodePath("../../ChildScaler/TapeButton1")
+focus_neighbour_right = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton1")
+focus_neighbour_bottom = NodePath("../../ChildScaler3/TapeButton3")
+focus_next = NodePath("../../ChildScaler3/TapeButton3")
+focus_previous = NodePath("../../ChildScaler/TapeButton1")
+
+[node name="AutoFocusButton" type="AudioStreamPlayer" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes/ChildScaler2/TapeButton2" index="2"]
+bus = "UI"
+script = ExtResource( 7 )
+autofocus = true
+
+[node name="ChildScaler3" type="Control" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes" index="2"]
+margin_top = 380.0
+margin_right = 248.0
+margin_bottom = 538.0
+rect_min_size = Vector2( 248, 158 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource( 11 )
+
+[node name="TapeButton3" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes/ChildScaler3" index="0" instance=ExtResource( 8 )]
+margin_left = -196.0
+margin_top = -126.0
+margin_right = 444.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 0, 0 )
+rect_scale = Vector2( 0.385366, 0.385366 )
+focus_neighbour_left = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton2")
+focus_neighbour_top = NodePath("../../ChildScaler2/TapeButton2")
+focus_neighbour_right = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton2")
+focus_neighbour_bottom = NodePath("../../ChildScaler4/TapeButton4")
+focus_next = NodePath("../../ChildScaler4/TapeButton4")
+focus_previous = NodePath("../../ChildScaler2/TapeButton2")
+
+[node name="AutoFocusButton" type="AudioStreamPlayer" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes/ChildScaler3/TapeButton3" index="2"]
+bus = "UI"
+script = ExtResource( 7 )
+autofocus = true
+
+[node name="ChildScaler4" type="Control" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes" index="3"]
+margin_top = 570.0
+margin_right = 248.0
+margin_bottom = 728.0
+rect_min_size = Vector2( 248, 158 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource( 11 )
+
+[node name="TapeButton4" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes/ChildScaler4" index="0" instance=ExtResource( 8 )]
+margin_left = -196.0
+margin_top = -126.0
+margin_right = 444.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 0, 0 )
+rect_scale = Vector2( 0.385366, 0.385366 )
+focus_neighbour_left = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton2")
+focus_neighbour_top = NodePath("../../ChildScaler3/TapeButton3")
+focus_neighbour_right = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton2")
+focus_neighbour_bottom = NodePath("../../ChildScaler/TapeButton1")
+focus_next = NodePath("../../../../../OverscanMarginContainer/Members/PartyMemberButton1")
+focus_previous = NodePath("../../ChildScaler3/TapeButton3")
+
+[node name="AutoFocusButton" type="AudioStreamPlayer" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/Tapes/ChildScaler4/TapeButton4" index="2"]
+bus = "UI"
+script = ExtResource( 7 )
+autofocus = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Scroller/MemberButtons/MarginContainer/PanelContainer" index="1"]
+margin_left = 20.0
+margin_right = 268.0
+margin_bottom = 1080.0
+mouse_filter = 2
+custom_constants/margin_right = -10
+custom_constants/margin_top = 35
+custom_constants/margin_left = -10
+custom_constants/margin_bottom = 35
+
+[node name="FusionBox" type="PanelContainer" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/MarginContainer" index="0"]
+margin_left = -10.0
+margin_top = 35.0
+margin_right = 258.0
+margin_bottom = 127.0
+mouse_filter = 2
+size_flags_vertical = 0
+custom_styles/panel = SubResource( 4 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/MarginContainer/FusionBox" index="0"]
+margin_top = 10.0
+margin_right = 268.0
+margin_bottom = 82.0
+mouse_filter = 2
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/MarginContainer/FusionBox/VBoxContainer" index="0"]
+margin_right = 268.0
+margin_bottom = 38.0
+custom_fonts/font = ExtResource( 1 )
+text = "UI_BATTLE_FUSION_METER"
+align = 1
+clip_text = true
+uppercase = true
+
+[node name="FusionMeter" type="TextureProgress" parent="Scroller/MemberButtons/MarginContainer/PanelContainer/MarginContainer/FusionBox/VBoxContainer" index="1"]
+margin_top = 42.0
+margin_right = 268.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 0, 30 )
+mouse_filter = 2
+max_value = 1000.0
+value = 500.0
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 12 )
+nine_patch_stretch = true
+
+[node name="FocusIndicator" parent="Scroller" index="3" instance=ExtResource( 14 )]
+visible = false
+container_path = NodePath("../MemberButtons")
+
+[node name="SwapTape" parent="Scroller/FocusIndicator" index="1" instance=ExtResource( 8 )]
+visible = false
+show_behind_parent = true
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -246.4
+margin_right = 393.6
+margin_bottom = 410.0
+rect_scale = Vector2( 0.385, 0.385 )
+rect_pivot_offset = Vector2( 0, 0 )
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+
+[node name="BackButtonPanel" parent="." index="3" instance=ExtResource( 9 )]
+
+[node name="HBoxContainer" parent="BackButtonPanel" index="0"]
+margin_left = 191.0
+margin_right = 1314.0
+
+[node name="SaveTeam" type="Button" parent="BackButtonPanel/HBoxContainer" index="0"]
+margin_right = 384.0
+margin_bottom = 52.0
+size_flags_horizontal = 10
+size_flags_vertical = 6
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
+text = "MOD_BSIDES_SAVE_OPTION"
+expand_icon = true
+script = ExtResource( 10 )
+action = "ui_save"
+hide_if_disabled = true
+
+[node name="ListTeam" type="Button" parent="BackButtonPanel/HBoxContainer" index="1"]
+margin_left = 448.0
+margin_right = 815.0
+margin_bottom = 52.0
+size_flags_horizontal = 10
+size_flags_vertical = 6
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
+text = "MOD_BSIDES_LIST_OPTION"
+expand_icon = true
+script = ExtResource( 10 )
+action = "ui_action_1"
+hide_if_disabled = true
+
+[node name="BackButton" parent="BackButtonPanel/HBoxContainer" index="2"]
+margin_left = 879.0
+margin_right = 1123.0
+
+[connection signal="pressed" from="BackButtonPanel/HBoxContainer/SaveTeam" to="." method="_on_SaveTeam_pressed"]
+[connection signal="pressed" from="BackButtonPanel/HBoxContainer/ListTeam" to="." method="_on_ListTeam_pressed"]
+
+[editable path="BackButtonPanel"]
