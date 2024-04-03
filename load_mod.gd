@@ -3,9 +3,9 @@ extends ContentInfo
 const DEBUG:bool = false
 
 # can check imported teams for invalid params on tapes, avoiding loading teams that have those
-var validator = preload("scripts/Validator.gd").new()
+#var validator = preload("scripts/Validator.gd").new()
 # responsible for managing saves for the mod, and importing/exporting teams as snapshots
-var storage = preload("scripts/StorageSystem.gd").new()
+#var storage = preload("scripts/StorageSystem.gd").new()
 # makes sure the snapshots from storage exist as tapes when needed and loads/unloads teams
 var team_loader = preload("scripts/TeamLoader.gd").new()
 
@@ -67,9 +67,9 @@ func _init():
 	# any final patched script can be printed on output by running this before run_tests
 	#patches["Party.gd"].enable_print_final_script()
 	
-	# validator and storage tests don't depend on a save being loaded, so they can be done here
-	#validator.run_tests()
-	#storage.run_tests()
+	# validator and storage tests don't depend on a save being loaded, so they can be tested here
+	#team_loader.storage.validator.run_tests()
+	#team_loader.storage.run_tests()
 	
 	# replaces classes with extensions of them as defined above
 	for ext in extensions:

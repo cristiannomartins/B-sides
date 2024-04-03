@@ -39,7 +39,7 @@ func get_tapes_from_team(team_id: int) -> Array:
 		var tapes = []
 		for tape_snap in snaps:
 			var tape = MonsterTape.new()
-			if not tape.set_snapshot(tape_snap, version):
+			if not tape.set_snapshot(tape_snap, version) or not storage.validator.validate_tape(tape):
 				return []
 			tape.grade = MonsterTape.MAX_TAPE_GRADE
 			#tape.exp_points = tape_id
@@ -94,7 +94,6 @@ func go_back_to_party() -> void:
 # represents the team_id of BT that was in use when entering Arena, or -2 when not on arena
 var inside_battle_arena = -2
 func _on_scene_change_starting():
-	#print("!!previous scene: " + str(SceneManager._previous_scene))
 	print("!!scene change start:" + str(SceneManager.current_scene))
 	var path = SceneManager.current_scene.get_path()
 	var name_index = path.get_name_count() - 1
@@ -113,7 +112,6 @@ func _on_scene_change_starting():
 
 
 func _on_scene_change_ending():
-	#print("!!previous scene: " + str(SceneManager._previous_scene))
 	print("!!scene change end:" + str(SceneManager.current_scene))
 	var path = SceneManager.current_scene.get_path()
 	var name_index = path.get_name_count() - 1

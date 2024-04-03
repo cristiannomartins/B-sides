@@ -36,3 +36,4 @@ MOD_BSIDES_SUCC_IMPORTING_ALL_TEAMS,All teams imported successfully!
 MOD_BSIDES_ERROR_IMPORTING_SOME_TEAM,"One or more teams could not be imported because of an issue. Please, try again later or contact support if this issue persists."
 MOD_BSIDES_MOD_LABEL,B-sides loaded
 MOD_BSIDES_EXPORT_EXISTING,An exported file with the same name already exists: do you want to overwrite it?
+MOD_BSIDES_EXPORT_EMPTY_TEAM,"Could not export team information because the current team is not valid for this save file. Please, erase the team or update the game and add mods that support the tapes on this team to be able to use it."

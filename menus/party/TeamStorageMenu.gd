@@ -130,6 +130,11 @@ func _on_export_teams_pressed():
 		# this button should be disabled when on party
 		return
 	
+	if not team_loader.get_tapes_from_team(team_id[0]):
+		GlobalMessageDialog.clear_state()
+		GlobalMessageDialog.show_message("MOD_BSIDES_EXPORT_EMPTY_TEAM")
+		return
+		
 	var filename = team_loader.storage.get_exporting_filename(team_id[0])
 	if team_loader.storage.check_exporting_team_filename(filename):
 		if not yield(MenuHelper.confirm("MOD_BSIDES_EXPORT_EXISTING"), "completed"):
@@ -137,7 +142,7 @@ func _on_export_teams_pressed():
 			return
 	
 	_show_succ_or_fail_message(team_loader.storage.export_team(team_id[0]),
-		"MOD_BSIDES_SUCC_EXPORT_TEAM", "")
+		"MOD_BSIDES_SUCC_EXPORT_TEAM", "MOD_BSIDES_FAIL_EXPORT_TEAM")
 
 
 func _show_succ_or_fail_message(success: bool, succ_msg: String, fail_msg: String = "") -> bool:
