@@ -11,17 +11,29 @@ func _get_script_path():
 func _add_changes():
 	var success = true
 	
-	# adding patch to disable fav, bestiary and rename buttons when is_using_bt
-	success = insert_before(
+	# adding patch to disable bestiary button when applicable
+	success = insert_after(
 		snippet.find_on_ready,
 		snippet.add_buttons_disable
 	) and success
 	
+	request_delayed_changes()
+	
 	return success
 
+func _delayed_changes() -> bool:
+	var success = true
+	
+	# if Sticker_Recycle_Bonus is loaded, I need to disable its menu on Party during this mod's usage
+	success = replace_first_occurrence(
+		snippet.find_party_stickers,
+		snippet.swap_party_stickers
+	) and success
+	
+	return success
 
 func _save_snippets():
-	add_snippet("find_on_ready", "\tbuttons.setup_focus()")
+	add_snippet("find_on_ready", "func _ready():")
 	add_snippet("add_buttons_disable", """
 	var tape_strg_menu = get_node('/root/MenuHelper/TapeStorageMenu')
 	var found_bt_list = tape_strg_menu and tape_strg_menu.has_method('_get_team_tapes')
@@ -34,7 +46,17 @@ func _save_snippets():
 			bestiary_btn = null
 """
 	)
-
+	
+	add_snippet("find_party_stickers", "\tvar buttons = PartyStickerActionButtonsExt.instance()")
+	add_snippet("swap_party_stickers", """
+	var buttons
+	if SaveState.party.is_using_bt():
+		buttons = PartyStickerActionButtons.instance()
+	else:
+		buttons = PartyStickerActionButtonsExt.instance()
+"""
+	)
+	
 ###################################
 # Debug methods
 

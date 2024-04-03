@@ -84,6 +84,9 @@ func _init():
 
 
 func _on_file_loaded():
+	for patch in patches:
+		patches[patch].delayed_patch()
+		
 	if DEBUG:
 		for patch in patches:
 			patches[patch].run_tests()

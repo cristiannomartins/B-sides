@@ -100,24 +100,24 @@ func _on_SaveTeam_pressed():
 		default_text = def_array[ randi() % def_array.size() ]
 	var new_name = yield (MenuHelper.show_text_input(title, default_text), "completed")
 	Controls.set_disabled(self, false)
-	assert (new_name is String)
-
-	if SaveState.party.is_using_bt():
-		if new_name:
+	
+	#assert (new_name is String)
+	if new_name:
+		if SaveState.party.is_using_bt():
 			team_storage.set_team_name(SaveState.party.current_team, new_name)
-		if team_storage.update_tapes_and_save(SaveState.party.current_team, SaveState.party.get_alt_tapes()):
-			GlobalMessageDialog.clear_state()
-			GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_SUCC_UPDATING_TEAM"))
+			if team_storage.update_tapes_and_save(SaveState.party.current_team, SaveState.party.get_alt_tapes()):
+				GlobalMessageDialog.clear_state()
+				GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_SUCC_UPDATING_TEAM"))
+			else:
+				GlobalMessageDialog.clear_state()
+				GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_ERROR_APPLYING_TEAM"))
 		else:
-			GlobalMessageDialog.clear_state()
-			GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_ERROR_APPLYING_TEAM"))
-	elif new_name:
-		if team_storage.create_team(new_name):
-			GlobalMessageDialog.clear_state()
-			GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_SUCC_ADDING_TEAM"))
-		else:
-			GlobalMessageDialog.clear_state()
-			GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_ERROR_APPLYING_TEAM"))
+			if team_storage.create_team(new_name):
+				GlobalMessageDialog.clear_state()
+				GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_SUCC_ADDING_TEAM"))
+			else:
+				GlobalMessageDialog.clear_state()
+				GlobalMessageDialog.show_message(Loc.tr("MOD_BSIDES_ERROR_APPLYING_TEAM"))
 	
 	update_ui()
 	grab_focus()

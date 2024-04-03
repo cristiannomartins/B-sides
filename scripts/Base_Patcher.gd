@@ -33,7 +33,10 @@ func get_snippet(key):
 
 # @needs_override as this is the main method changing the script
 func _add_changes() -> bool:
-	assert(false)
+	return false
+
+
+func _delayed_changes() -> bool:
 	return false
 
 
@@ -50,6 +53,7 @@ func load_src_code(script_path, patched_script):
 
 var _print_script = false
 var _should_test = true
+var _has_delayed_changes = false
 var code_lines:Array = []
 func patch():
 	var script_name = _get_script_name()
@@ -71,15 +75,33 @@ func patch():
 		return
 
 	# applying changes to script
-	var err = _apply_changes(patching_script)
-	if err != OK:
-		print("Failed to patch %s." % script_path)
-		# if error is "already_in_use", need to set "true" as third arg of apply_changes
-		print("Error code %s." % str(err))
-		return
-	
-	print("<< Patched %s!" % script_name)
+	if _apply_changes(patching_script):
+		print("<< Patched %s!" % script_name)
 
+
+func request_delayed_changes():
+	_has_delayed_changes = true
+
+func delayed_patch():
+	if not _has_delayed_changes: return
+	
+	var script_name = _get_script_name()
+	print(">> Trying to (late) patch %s!" % script_name)
+	
+	var script_path = _get_script_path()
+	var patching_script = load(script_path)
+
+	if not patching_script.has_source_code():
+		if not load_src_code(script_path, patching_script):
+			return
+	
+	code_lines = patching_script.source_code.split("\n")
+	
+	if not _delayed_changes():
+		return
+		
+	if _apply_changes(patching_script):
+		print("<< Patched %s!" % script_name)
 
 func _get_script_name():
 	return _get_script_path().get_file().get_basename()
@@ -160,13 +182,19 @@ func replace_all_occurrences(what: String, what_for: String) -> bool:
 	return true
 
 
-func _apply_changes(script):
+func _apply_changes(script) -> bool:
 	script.source_code = ""
 	for line in code_lines:
 		script.source_code += line + "\n"
 	
 	# if error is already_in_use, set keep_state to true
-	return script.reload(keep_state())
+	var err = script.reload(keep_state())
+	if err != OK:
+		print("Failed to patch %s." % _get_script_path())
+		# if error is "already_in_use", need to set "true" as third arg of apply_changes
+		print("Error code %s." % str(err))
+		return false
+	return true
 	
 func enable_print_final_script():
 	_print_script = true
