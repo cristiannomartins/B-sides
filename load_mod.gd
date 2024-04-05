@@ -68,7 +68,7 @@ func _init():
 	#patches["Party.gd"].enable_print_final_script()
 	
 	# validator and storage tests don't depend on a save being loaded, so they can be tested here
-	#team_loader.storage.validator.run_tests()
+	team_loader.storage.validator.run_tests(team_loader.storage)
 	#team_loader.storage.run_tests()
 	
 	# replaces classes with extensions of them as defined above

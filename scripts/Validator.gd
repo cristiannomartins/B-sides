@@ -10,8 +10,9 @@ func validate_tape(tape: MonsterTape) -> bool:
 		dlog("Tape should have at most %d stickers" % MonsterTape.MOVE_SLOTS_HARD_LIMIT)
 		return false
 	
-	var plus_slot_to_max = max_stickers - tape.form.move_slots
-	var plus_one_slots = 0
+	var slot_increments = tape.stat_increments.move_slots if "move_slots" in tape.stat_increments else 0
+	var plus_slot_to_max = max_stickers - (tape.form.move_slots + slot_increments)
+#	var plus_one_slots = 0
 	
 	for i in max_stickers:
 		# ignore empty slots
@@ -52,7 +53,8 @@ func validate_tape(tape: MonsterTape) -> bool:
 				dlog("sticker attribute stat increase should be between min and max possible values")
 				return false
 			if _is_extra_slot_attribute(attr):
-				plus_one_slots += 1
+				#plus_one_slots += 1
+				plus_slot_to_max -= 1
 			max_attributes[attr.rarity] -= 1
 			if max_attributes[attr.rarity] < 0:
 				dlog("sticker has too many attributes of rarity = %d" % attr.rarity)
@@ -64,7 +66,8 @@ func validate_tape(tape: MonsterTape) -> bool:
 			dlog("sticker has attributes of higher rarity than itself")
 			return false
 
-	if plus_one_slots < plus_slot_to_max:
+	#if plus_one_slots < plus_slot_to_max:
+	if plus_slot_to_max < 0:
 		dlog("There are not enough extra slot attributes to compensate the number of stickers")
 		return false
 				
@@ -159,8 +162,10 @@ func _test_make_tape_invalid(tape: MonsterTape) -> void:
 
 # TODO: does it make sense to try and create the tapes when loading them from external files
 # and see if this guarantees the tapes are valid?
-func run_tests() -> void:
+func run_tests(storage) -> void:
 	var tape = _test_create_tape("arkidd")
+	storage.upgrade_to_five_stars(tape)
+
 	dlog("Valid tape: %s" % tape.get_snapshot())
 	var result = validate_tape(tape)
 	dlog("Result: %s" % str(result))
@@ -225,7 +230,7 @@ func run_tests() -> void:
 	dlog("total of %d stickers" % tape.stickers.size())
 	result = validate_tape(tape)
 	dlog("Result: %s" % str(result))
-	assert(result == false)
+	assert(result == true)
 	
 	tape.stickers.push_back(tape.stickers[0])
 	dlog("added one more: total of %d stickers" % tape.stickers.size())
@@ -233,7 +238,4 @@ func run_tests() -> void:
 	result = validate_tape(tape)
 	dlog("Result: %s" % str(result))
 	assert(result == false)
-	
 
-	
-	# TODO: implement tests for attributes rarer than sticker

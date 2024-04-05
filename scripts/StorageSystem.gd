@@ -224,10 +224,22 @@ func _validate_team(var version:int, var tapes: Array) -> bool:
 	for tape in tapes:
 		var tmp = MonsterTape.new()
 		tmp.set_snapshot(tape, version)
+		upgrade_to_five_stars(tmp)
 		if not validator.validate_tape(tmp):
 			return false
 
 	return true
+
+func upgrade_to_five_stars(tape: MonsterTape) -> void:
+	var stickers_bck = tape.stickers
+	tape.stickers = []
+	var rand = Random.new()
+	tape.upgrade_to(1, rand)
+	tape.upgrade_to(2, rand)
+	tape.upgrade_to(3, rand)
+	tape.upgrade_to(4, rand)
+	tape.upgrade_to(5, rand)
+	tape.stickers = stickers_bck
 
 
 # reads a file from sharing folder and include the team from there into the savefile
