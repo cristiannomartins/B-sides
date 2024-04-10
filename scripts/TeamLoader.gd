@@ -41,7 +41,7 @@ func get_tapes_from_team(team_id: int) -> Array:
 			var tape = MonsterTape.new()
 			if not tape.set_snapshot(tape_snap, version):
 				return []
-			storage.upgrade_to_five_stars(tape)
+			storage.validator.upgrade_to_five_stars(tape)
 			if not storage.validator.validate_tape(tape):
 				return []
 			tape.exp_points = 0

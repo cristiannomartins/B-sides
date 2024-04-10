@@ -48,6 +48,22 @@ func _init() -> void:
 	load_teams()
 
 
+# remove reference to savefiles that were deleted when starting a new file
+func _on_file_cleared():
+	var dir = Directory.new()
+	var erased = []
+	for save in snapshots.current_teams.keys():
+		if dir.file_exists(save) or dir.file_exists(save + ".gz.gcpf"):
+			continue
+		erased.push_back(save)
+
+	for save in erased:
+		snapshots.current_teams.erase(save)
+
+	_save_teams_state(save_file, snapshots)
+
+
+
 func get_all_team_ids() -> Array:
 	var result = []
 	for team in snapshots.teams:
@@ -224,23 +240,11 @@ func _validate_team(var version:int, var tapes: Array) -> bool:
 	for tape in tapes:
 		var tmp = MonsterTape.new()
 		tmp.set_snapshot(tape, version)
-		upgrade_to_five_stars(tmp)
+		validator.upgrade_to_five_stars(tmp)
 		if not validator.validate_tape(tmp):
 			return false
 
 	return true
-
-func upgrade_to_five_stars(tape: MonsterTape) -> void:
-	var stickers_bck = tape.stickers
-	tape.stickers = []
-	var rand = Random.new()
-	tape.upgrade_to(1, rand)
-	tape.upgrade_to(2, rand)
-	tape.upgrade_to(3, rand)
-	tape.upgrade_to(4, rand)
-	tape.upgrade_to(5, rand)
-	tape.stickers = stickers_bck
-
 
 # reads a file from sharing folder and include the team from there into the savefile
 func import_team(file_name: String) -> int:

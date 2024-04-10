@@ -1,5 +1,15 @@
 extends Resource
 
+func upgrade_to_five_stars(tape: MonsterTape) -> void:
+	var stickers_bck = tape.stickers
+	tape.stickers = []
+	var rand = Random.new()
+	for i in range(1, 5):
+		tape.upgrade_to(i, rand)
+	
+	tape.stickers = stickers_bck
+
+
 func validate_tape(tape: MonsterTape) -> bool:
 	if not tape.has_moves():
 		dlog("tape without moves is fine")
@@ -162,9 +172,9 @@ func _test_make_tape_invalid(tape: MonsterTape) -> void:
 
 # TODO: does it make sense to try and create the tapes when loading them from external files
 # and see if this guarantees the tapes are valid?
-func run_tests(storage) -> void:
+func run_tests() -> void:
 	var tape = _test_create_tape("arkidd")
-	storage.upgrade_to_five_stars(tape)
+	upgrade_to_five_stars(tape)
 
 	dlog("Valid tape: %s" % tape.get_snapshot())
 	var result = validate_tape(tape)

@@ -174,3 +174,7 @@ func _on_Delete_button_pressed():
 	set_category_index(0)
 	grab_focus()
 	
+
+
+func _on_Filter_pressed():
+	pass # Replace with function body.

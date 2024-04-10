@@ -1,16 +1,17 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://ui/fonts/regular/regular_70.tres" type="DynamicFont" id=1]
 [ext_resource path="res://nodes/menus/AutoFocusConnector.gd" type="Script" id=2]
 [ext_resource path="res://menus/BaseMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/menu_bg_fade.shader" type="Shader" id=4]
-[ext_resource path="res://menus/BackButtonPanel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/battle_theme.tres" type="Theme" id=5]
 [ext_resource path="res://nodes/menus/InputMappedButton.gd" type="Script" id=6]
 [ext_resource path="res://nodes/menus/AutoScrollContainer.gd" type="Script" id=7]
 [ext_resource path="res://mods/B-sides/menus/party/TeamStorageMenu.gd" type="Script" id=8]
 [ext_resource path="res://nodes/menus/ScrollIndicator.tscn" type="PackedScene" id=9]
 [ext_resource path="res://menus/tape_storage/StorageTapeUI.tscn" type="PackedScene" id=10]
 [ext_resource path="res://nodes/menus/RowFocusIndicator.tscn" type="PackedScene" id=11]
+[ext_resource path="res://menus/BackButtonPanel.gd" type="Script" id=12]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -51,7 +52,23 @@ content_margin_bottom = 97.0
 
 [sub_resource type="StyleBoxEmpty" id=6]
 
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_left = 84.0
+content_margin_right = 84.0
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 14
+border_width_top = 10
+border_width_right = 14
+border_color = Color( 0.168627, 0.113725, 0.223529, 1 )
+corner_radius_top_left = 66
+corner_radius_top_right = 66
+corner_detail = 1
+expand_margin_left = 40.0
+expand_margin_right = 70.0
+
 [sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=9]
 
 [node name="TapeStorageMenu" instance=ExtResource( 3 )]
 script = ExtResource( 8 )
@@ -210,11 +227,32 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 custom_styles/panel = SubResource( 6 )
 
-[node name="BackButtonPanel" parent="." index="3" instance=ExtResource( 5 )]
+[node name="BackButtonPanel" type="PanelContainer" parent="." index="3"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1505.0
+margin_top = -68.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource( 5 )
+custom_styles/panel = SubResource( 8 )
+script = ExtResource( 12 )
 
-[node name="HBoxContainer" parent="BackButtonPanel" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BackButtonPanel" index="0"]
 margin_left = 84.0
+margin_top = 13.0
 margin_right = 2281.0
+margin_bottom = 65.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_constants/separation = 64
+alignment = 1
 
 [node name="Delete" type="Button" parent="BackButtonPanel/HBoxContainer" index="0"]
 margin_right = 386.0
@@ -263,7 +301,25 @@ expand_icon = true
 script = ExtResource( 6 )
 action = "ui_action_2"
 
-[node name="Apply" type="Button" parent="BackButtonPanel/HBoxContainer" index="3"]
+[node name="Filter" type="Button" parent="BackButtonPanel/HBoxContainer" index="3"]
+visible = false
+margin_left = 1389.0
+margin_right = 1781.0
+margin_bottom = 52.0
+hint_tooltip = "MOD_BSIDES_FILTER_TEAMS_HINT"
+size_flags_horizontal = 10
+size_flags_vertical = 6
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 7 )
+text = "MOD_BSIDES_FILTER_TEAMS"
+expand_icon = true
+script = ExtResource( 6 )
+action = "ui_accept"
+
+[node name="Apply" type="Button" parent="BackButtonPanel/HBoxContainer" index="4"]
 margin_left = 1389.0
 margin_right = 1889.0
 margin_bottom = 52.0
@@ -280,15 +336,30 @@ expand_icon = true
 script = ExtResource( 6 )
 action = "ui_action_1"
 
-[node name="BackButton" parent="BackButtonPanel/HBoxContainer" index="4"]
+[node name="BackButton" type="Button" parent="BackButtonPanel/HBoxContainer" index="5"]
 margin_left = 1953.0
 margin_right = 2197.0
+margin_bottom = 52.0
+focus_mode = 0
+size_flags_horizontal = 10
+size_flags_vertical = 6
+custom_styles/hover = SubResource( 9 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/focus = SubResource( 9 )
+custom_styles/disabled = SubResource( 9 )
+custom_styles/normal = SubResource( 9 )
+text = "UI_BUTTON_BACK"
+expand_icon = true
+script = ExtResource( 6 )
+action = "ui_cancel"
+detect_action = false
 
 [connection signal="pressed" from="Scroller/OverscanMarginContainer/VBoxContainer/PanelContainer/HBoxContainer/PrevCategoryButton" to="." method="change_category" binds= [ -1 ]]
 [connection signal="pressed" from="Scroller/OverscanMarginContainer/VBoxContainer/PanelContainer/HBoxContainer/NextCategoryButton" to="." method="change_category" binds= [ 1 ]]
+[connection signal="resized" from="BackButtonPanel/HBoxContainer" to="BackButtonPanel" method="_on_HBoxContainer_resized"]
 [connection signal="pressed" from="BackButtonPanel/HBoxContainer/Delete" to="." method="_on_Delete_button_pressed"]
 [connection signal="pressed" from="BackButtonPanel/HBoxContainer/Export" to="." method="_on_export_teams_pressed"]
 [connection signal="pressed" from="BackButtonPanel/HBoxContainer/Import" to="." method="_on_import_teams_pressed"]
+[connection signal="pressed" from="BackButtonPanel/HBoxContainer/Filter" to="." method="_on_Filter_pressed"]
 [connection signal="pressed" from="BackButtonPanel/HBoxContainer/Apply" to="." method="_on_apply_teams_pressed"]
-
-[editable path="BackButtonPanel"]
+[connection signal="pressed" from="BackButtonPanel/HBoxContainer/BackButton" to="BackButtonPanel" method="_on_BackButton_pressed"]

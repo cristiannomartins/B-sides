@@ -1,5 +1,10 @@
 extends ContentInfo
 
+# if modutils is installed, can warn user about updates; otherwise, ignore them
+const MODUTILS = {
+	"updates": "https://gist.githubusercontent.com/cristiannomartins/47cc0a5d1eafbdf1ccc9ad7fb058fe6c/raw/updates.txt",
+}
+
 const DEBUG:bool = false
 
 # can check imported teams for invalid params on tapes, avoiding loading teams that have those
@@ -68,7 +73,7 @@ func _init():
 	#patches["Party.gd"].enable_print_final_script()
 	
 	# validator and storage tests don't depend on a save being loaded, so they can be tested here
-	team_loader.storage.validator.run_tests(team_loader.storage)
+	# team_loader.storage.validator.run_tests()
 	#team_loader.storage.run_tests()
 	
 	# replaces classes with extensions of them as defined above
@@ -77,6 +82,7 @@ func _init():
 	
 	# registers events we use through the mod
 	SaveSystem.connect("file_loaded", self, "_on_file_loaded")
+	SaveSystem.connect("file_cleared", team_loader.storage, "_on_file_cleared")
 	SceneManager.connect("scene_change_starting", team_loader, "_on_scene_change_starting")
 	SceneManager.connect("scene_change_ending", team_loader, "_on_scene_change_ending")
 	

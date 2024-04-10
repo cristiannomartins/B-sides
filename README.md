@@ -49,7 +49,13 @@ All Mixtapes sets and user preferences related to this mod are saved at `user://
 > All and all, battle teams are implemented as overlays to the real tapes in the party. As such, certain menus will still refer to the original tapes set to your party (the tapes' "A-sides"), such as the trading and tape storage menus.
 
 ## Community mods compatibility
-This mod is autosuficcient and doesn't have any dependences to other mods. Besides that, as of now, most mods present on modworkshop for the game are compatible with this mod. The only two mods I had to specifically write code to avoid having issues with were (1) Battle Arena, for reasons related to not wanting to ignore the rules of the arena, and allow players to enter it with tapes that were incompatible with some arena restricted mode, and (2) Recycle Sticker Bonus, as they add extra options to the sticker management menu, and B-side tapes should not allow their stickers to be edited. Other than that I did not encounter any real issues (yet!). If you like the mod and want to help, feel free to clone the repo and submit pull requests :)
+This mod is autosuficcient and doesn't have any dependences for it to work. That being said, if you have modutils installed, it can indicate on the title screen whenever an update is available to download.
+
+Besides that, as of now, most mods present on modworkshop for the game are compatible with this mod. The only two mods I had to specifically write code to avoid having issues with were:
+(1) Battle Arena, for reasons related to not wanting to ignore the rules of the arena, and allow players to enter it with tapes that were incompatible with some arena restricted mode, and
+(2) Recycle Sticker Bonus, as they add extra options to the sticker management menu, and B-side tapes should not allow their stickers to be edited.
+
+Other than that I did not encounter any real issues (yet!). If you like the mod and want to help, feel free to clone the repo and submit pull requests :)
 
 > [!CAUTION]
 > B-Sides does not edit or add information to the game's main savefile, as all information needed is stored on a separate file inside `user://battle_teams`. However, any mods should not be considered completely safe for the game, as they are not guaranteed to continue to work after oficial updates from the devs' team. That being said, remember to backup your saves to prevent any data losses or save file corruption of any kind before trying mods out.
